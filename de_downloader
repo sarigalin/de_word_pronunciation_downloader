@@ -1,0 +1,19 @@
+# !/bin/bash
+base=http://www.duden.de/rechtschreibung/
+word=$1
+
+link=$(./duden $word)
+
+if [ -z "$link" ] 
+then
+	link=$(./collins_de $word)
+	if [ -z "$link" ] 
+	then
+		echo "sorry, word not found";
+		exit;
+	fi
+fi
+#echo $link
+echo "downloading..."
+curl -s -o $word.mp3 $link
+

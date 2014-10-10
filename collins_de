@@ -1,0 +1,12 @@
+# !/bin/bash
+base=http://www.collinsdictionary.com/dictionary/german-english/
+base_mp3=http://www.collinsdictionary.com/
+word=$1
+
+link=$(curl -s $base$word | grep -o "sounds/d/de_/de_w0/de_[^ ]*.mp3" | head -n1) 
+#link=$(cat buch | grep -o "sounds/d/de_/de_w0/de_[^ ]*.mp3" | head -n1) 
+if [ -z "$link" ] 
+then
+	exit;
+fi
+echo $base_mp3$link

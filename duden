@@ -1,0 +1,24 @@
+# !/bin/bash
+base=http://www.duden.de/rechtschreibung/
+word=$1
+
+declare -a A
+declare -a B
+A=(Ä Ö Ü ä ö ü ß)
+B=(Ae Oe Ue ae oe ue sz)
+for ((i=0;i<=6;i++)) do
+        word=$(echo $word | sed "s/${A[$i]}/${B[$i]}/g")
+done
+
+link=$(curl -s $base$word | grep -o "http://www\.duden.*\.mp3" | head -n1)
+#link=$(cat a.html | grep -o "http://www\.duden.*\.mp3")
+if [ -z "$link" ] 
+then
+	t=$(echo $1 | sed 's/\(\<.\)\.*/\u\1/g')
+	if [ "$t" != "$1" ] 
+	then
+		./duden $t;
+	fi
+	exit;
+fi
+echo $link
